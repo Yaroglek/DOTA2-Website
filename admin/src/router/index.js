@@ -6,25 +6,25 @@ import CategoryList from '../views/CategoryList.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'main',
-    component: Main,
-    children: [
-      {
-        path: '/categories/create',
-        name: 'category_edit',
-        component: CategoryEdit
-      },
-      {
-        path: '/categories/list',
-        name: 'category_list',
-        component: CategoryList
-      }
-    ]
-  }
-]
+const routes = [{
+  path: '/',
+  name: 'main',
+  component: Main,
+  children: [{
+    path: '/categories/create',
+    name: 'category_edit',
+    component: CategoryEdit
+  }, {
+    path: '/categories/edit/:id',
+    name: 'category_edit',
+    component: CategoryEdit,
+    props: true
+  }, {
+    path: '/categories/list',
+    name: 'category_list',
+    component: CategoryList
+  }]
+}]
 
 const router = new VueRouter({
   routes
