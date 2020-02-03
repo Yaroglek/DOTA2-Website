@@ -35,7 +35,7 @@ export default {
       this.$router.push('/categories/list')
       this.$message({
         type: 'success',
-        message: `保存成功 ${data}`
+        message: `保存成功 ${data.name}`
       })
     }
   },
