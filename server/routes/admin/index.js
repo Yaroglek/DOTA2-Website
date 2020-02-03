@@ -17,7 +17,7 @@ module.exports = app => {
     res.send(document)
   })
   router.get('/categories', async (req, res) => {
-    const documents = await Category.find().limit(10)
+    const documents = await Category.find().populate('parent').limit(10)
     res.send(documents)
   })
   router.get('/categories/:id', async (req, res) => {
