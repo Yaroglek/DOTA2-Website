@@ -5,7 +5,8 @@ module.exports = app => {
     user: 'root',
     pass: 'TOOR',
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: true
   })
   mongoose.connection.on('open', () => {
     console.log('数据库已连接')

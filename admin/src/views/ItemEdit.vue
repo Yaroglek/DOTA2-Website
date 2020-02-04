@@ -11,7 +11,10 @@
         <el-input v-model="model.name"></el-input>
       </el-form-item>
       <el-form-item label="图标">
-        <el-input v-model="model.icon"></el-input>
+        <el-upload class="avatar-uploader" :action="`${$http.defaults.baseURL}/upload`" :show-file-list="false" :on-success="afterUpload">
+          <img class="avatar" v-if="model.icon" :src="model.icon">
+          <i class="el-icon-plus avatar-uploader-icon" v-else></i>
+        </el-upload>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
@@ -27,7 +30,8 @@ export default {
   data () {
     return {
       model: {
-        name: ''
+        name: '',
+        icon: ''
       }
     }
   },
@@ -45,6 +49,9 @@ export default {
         type: 'success',
         message: `保存成功 ${data.name}`
       })
+    },
+    afterUpload (res) {
+      this.model.icon = res.url
     }
   },
   created () {
@@ -52,3 +59,28 @@ export default {
   }
 }
 </script>
+<style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+</style>

@@ -3,8 +3,10 @@
     <h1>物品列表</h1>
     <el-table :data="items">
       <el-table-column prop="_id" label="id" width="240"></el-table-column>
-      <el-table-column prop="parent.name" label="上级分类"></el-table-column>
       <el-table-column prop="name" label="物品名称"></el-table-column>
+      <el-table-column prop="icon" label="图标">
+        <template slot-scope="scope"><img style="height: 4rem" :src="scope.row.icon"></template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="180">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="$router.push(`/items/edit/${scope.row._id}`)">编辑</el-button>
