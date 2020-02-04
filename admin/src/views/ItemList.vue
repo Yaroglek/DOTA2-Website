@@ -29,7 +29,7 @@ export default {
       this.items = data
     },
     async remove (row) {
-      await this.$confirm(`删除分类 ${row.name}`, '警告', {
+      await this.$confirm(`删除物品 ${row.name}`, '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
