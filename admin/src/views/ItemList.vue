@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>物品列表</h1>
-    <el-table :data="items">
+    <el-table :data="list">
       <el-table-column prop="_id" label="id" width="240"></el-table-column>
       <el-table-column prop="name" label="物品名称"></el-table-column>
       <el-table-column prop="icon" label="图标">
@@ -20,13 +20,13 @@
 export default {
   data () {
     return {
-      items: []
+      list: []
     }
   },
   methods: {
     async fetch () {
       const { data } = await this.$http.get('rest/items')
-      this.items = data
+      this.list = data
     },
     async remove (row) {
       await this.$confirm(`删除物品 ${row.name}`, '警告', {
