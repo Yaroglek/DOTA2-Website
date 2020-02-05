@@ -25,9 +25,18 @@ module.exports = app => {
     res.send(document)
   })
   router.get('/', async (req, res) => {
-    const documents = await req.Model.find().setOptions({
-      populate: req.Model.modelName === 'Category' ? 'parent' : undefined
-    }).limit(10)
+    const options = {}
+    switch (req.Model.modelName) {
+      case 'Category':
+        options.populate = 'parent'
+        break
+      case 'Article':
+        options.populate = 'categories'
+        break
+      default:
+        break
+    }
+    const documents = await req.Model.find().setOptions(options).limit(10)
     res.send(documents)
   })
   router.get('/:id', async (req, res) => {
