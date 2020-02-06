@@ -14,7 +14,7 @@
             <el-input v-model="item.url"></el-input>
           </el-form-item>
           <el-form-item label="广告图">
-            <el-upload class="avatar-uploader" :action="`${$http.defaults.baseURL}/upload`" :show-file-list="false" :on-success="res => item.image = res.url">
+            <el-upload class="avatar-uploader" action="" :http-request="upload" :show-file-list="false" :on-success="data => item.image = data.url">
               <img class="avatar" v-if="item.image" :src="item.image">
               <i class="el-icon-plus avatar-uploader-icon" v-else></i>
             </el-upload>
@@ -42,6 +42,18 @@ export default {
     }
   },
   methods: {
+    async upload (option) {
+      const formData = new FormData()
+      if (option.data) {
+        Object.keys(option.data).forEach(function (key) {
+          formData.append(key, option.data[key])
+        })
+      }
+      formData.append(option.filename, option.file, option.file.name)
+      const headers = option.headers || {}
+      const { data } = await this.$http.post('upload', formData, headers)
+      return data
+    },
     async fetch () {
       const { data } = await this.$http.get(`rest/ads/${this.id}`)
       this.model = data

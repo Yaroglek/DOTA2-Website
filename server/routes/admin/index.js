@@ -1,7 +1,12 @@
 const express = require('express')
 const multer = require('multer')
 const path = require('path')
-const classify = require('inflection').classify
+const bcrypt = require('bcrypt-nodejs')
+const jsonwebtoken = require('jsonwebtoken')
+const assert = require('http-assert')
+const AdminUser = require('./../../models/AdminUser')
+const authMiddleware = require('./../../middleware/auth')()
+const resourceMiddleware = require('./../../middleware/resource')()
 
 const router = express.Router({
   mergeParams: true
@@ -43,14 +48,33 @@ module.exports = app => {
     const document = await req.Model.findById(req.params.id)
     res.send(document)
   })
-  app.use('/admin/api/rest/:resource', async (req, res, next) => {
-    req.Model = require(`./../../models/${classify(req.params.resource)}`)
-    next()
-  }, router)
+  app.use('/admin/api/rest/:resource', authMiddleware, resourceMiddleware, router)
 
-  app.post('/admin/api/upload', upload.single('file'), async (req, res) => {
+  app.post('/admin/api/upload', authMiddleware, upload.single('file'), async (req, res) => {
     const file = req.file
     file.url = `http://localhost:3000/uploads/${file.filename}`
     res.send(file)
+  })
+
+  app.post('/admin/api/login', async (req, res) => {
+    const adminUser = await AdminUser.findOne({
+      username: req.body.username
+    }).select('+password')
+    assert(adminUser && bcrypt.compareSync(req.body.password, adminUser.password), 422, '用户名或密码错误')
+    const token = jsonwebtoken.sign({
+      id: adminUser._id
+    }, app.get('SECRET_KEY'))
+    res.send({
+      adminUser: {
+        username: adminUser.username
+      },
+      token,
+      message: '登录成功'
+    })
+  })
+  app.use(async (err, req, res, next) => {
+    res.status(err.statusCode || 500).send({
+      message: err.message
+    })
   })
 }

@@ -11,10 +11,20 @@ import AdEdit from '../views/AdEdit.vue'
 import AdList from '../views/AdList.vue'
 import ArticleEdit from '../views/ArticleEdit.vue'
 import ArticleList from '../views/ArticleList.vue'
+import AdminUserEdit from '../views/AdminUserEdit.vue'
+import AdminUserList from '../views/AdminUserList.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
 const routes = [{
+  path: '/login',
+  name: 'login',
+  component: Login,
+  meta: {
+    isPublic: true
+  }
+}, {
   path: '/',
   name: 'main',
   component: Main,
@@ -83,11 +93,30 @@ const routes = [{
     path: '/articles/list',
     name: 'article_list',
     component: ArticleList
+  }, {
+    path: '/admin_users/create',
+    name: 'admin_user_edit',
+    component: AdminUserEdit
+  }, {
+    path: '/admin_users/edit/:id',
+    name: 'admin_user_edit',
+    component: AdminUserEdit,
+    props: true
+  }, {
+    path: '/admin_users/list',
+    name: 'admin_user_list',
+    component: AdminUserList
   }]
 }]
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  !to.meta.isPublic && !sessionStorage.getItem('token')
+    ? next('/login')
+    : next()
 })
 
 export default router

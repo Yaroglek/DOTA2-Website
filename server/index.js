@@ -4,6 +4,11 @@ const path = require('path')
 
 const app = express()
 
+const SECRET_KEY = 'qw9kkm68f4as52f1fcas23v'
+
+app.set('SECRET_KEY', SECRET_KEY)
+app.get('SECRET_KEY')
+
 app.use(cors({
   origin: 'http://localhost:8080',
   optionsSuccessStatus: 200

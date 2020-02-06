@@ -8,7 +8,7 @@
             <el-input v-model="model.name"></el-input>
           </el-form-item>
           <el-form-item label="头像">
-            <el-upload class="avatar-uploader" :action="`${$http.defaults.baseURL}/upload`" :show-file-list="false" :on-success="res => model.avatar = res.url">
+            <el-upload class="avatar-uploader" action="" :http-request="upload" :show-file-list="false" :on-success="data => model.avatar = data.url">
               <img class="avatar" v-if="model.avatar" :src="model.avatar">
               <i class="el-icon-plus avatar-uploader-icon" v-else></i>
             </el-upload>
@@ -42,7 +42,7 @@
                 <el-input type="textarea" v-model="item.tips"></el-input>
               </el-form-item>
               <el-form-item label="技能图标">
-                <el-upload class="avatar-uploader" :action="`${$http.defaults.baseURL}/upload`" :show-file-list="false" :on-success="res => item.icon = res.url">
+                <el-upload class="avatar-uploader" action="" :http-request="upload" :show-file-list="false" :on-success="data => item.icon = data.url">
                   <img class="avatar" v-if="item.icon" :src="item.icon">
                   <i class="el-icon-plus avatar-uploader-icon" v-else></i>
                 </el-upload>
@@ -118,6 +118,18 @@ export default {
     }
   },
   methods: {
+    async upload (option) {
+      const formData = new FormData()
+      if (option.data) {
+        Object.keys(option.data).forEach(function (key) {
+          formData.append(key, option.data[key])
+        })
+      }
+      formData.append(option.filename, option.file, option.file.name)
+      const headers = option.headers || {}
+      const { data } = await this.$http.post('upload', formData, headers)
+      return data
+    },
     async fetch () {
       const { data } = await this.$http.get(`rest/heroes/${this.id}`)
       this.model = data
