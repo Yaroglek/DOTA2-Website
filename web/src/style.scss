@@ -1,0 +1,142 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+html {
+  -webkit-text-size-adjust:none;
+  font-size: 50px;
+}
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f1f1f1;
+}
+a {
+  color: #222;
+}
+a:visited {
+  color: #999;
+}
+$colors: (
+  "primary": #db9e3f,
+  "white": #fff,
+  "black": #333,
+  "dark-2": #222,
+  "dark-3": #333,
+  "gray": #999,
+  "light": #f9f9f9
+);
+@each $key, $value in $colors {
+  .color-#{$key} {
+    color: $value;
+  }
+  .background-color-#{$key} {
+    background-color: $value;
+  }
+}
+@each $var in (left, center, right) {
+  .text-#{$var}{
+    text-align: $var;
+  }
+}
+$font-size: (
+  "xs": 0.24rem,
+  "sm": 0.28rem,
+  "md": 0.32rem,
+  "lg": 0.36rem,
+  "xl": 0.40rem
+);
+@each $key, $value in $font-size {
+  .font-size-#{$key} {
+    font-size: $value;
+    line-height: 1.25 * $value;
+  }
+}
+.display-flex {
+  display: flex;
+}
+$justify-content: (
+  "start": flex-start,
+  "end": flex-end,
+  "center": center,
+  "between": space-between,
+  "around": space-around
+);
+@each $key, $value in $justify-content {
+  .justify-content-#{$key} {
+    justify-content: $value;
+  }
+}
+$align-items: (
+  "start": flex-start,
+  "end": flex-end,
+  "center": center,
+  "stretch": stretch,
+  "baseline": baseline
+);
+@each $key, $value in $align-items {
+  .align-items-#{$key} {
+    align-items: $value;
+  }
+}
+$flex-direction: (
+  "row": row,
+  "row-reverse": row-reverse,
+  "column": column,
+  "column-reverse": column-reverse,
+);
+@each $key, $value in $flex-direction {
+  .flex-direction-#{$key} {
+    flex-direction: $value;
+  }
+}
+.flex-1 {
+  flex: 1;
+}
+.flex-grow-1 {
+  flex-grow: 1
+}
+$spacing-types: (
+  "margin": margin,
+  "padding": padding
+);
+$spacing-directions: (
+  "top": top,
+  "right": right,
+  "bottom": bottom,
+  "left": left
+);
+$spaceing-size-base: 0.32rem;
+$spacing-sizes: (
+  "0": 0,
+  "1": 0.25,
+  "2": 0.5,
+  "3": 0.75,
+  "4": 1,
+  "5": 1.25,
+  "6": 1.5,
+  "7": 1.75,
+  "8": 2
+);
+@each $key1, $value1 in $spacing-types {
+  @each $key3, $value3 in $spacing-sizes {
+    .#{$key1}-#{$key3} {
+      #{$value1}: $value3 * $spaceing-size-base;
+    }
+    .#{$key1}-x-#{$key3} {
+      #{$value1}-left: $value3 * $spaceing-size-base;
+      #{$value1}-right: $value3 * $spaceing-size-base;
+    }
+    .#{$key1}-y-#{$key3} {
+      #{$value1}-top: $value3 * $spaceing-size-base;
+      #{$value1}-bottom: $value3 * $spaceing-size-base;
+    }
+  }
+  @each $key2, $value2 in $spacing-directions {
+    @each $key3, $value3 in $spacing-sizes {
+      .#{$key1}-#{$key2}-#{$key3} {
+        #{$value1}-#{$value2}: $value3 * $spaceing-size-base;
+      }
+    }
+  }
+}
