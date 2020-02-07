@@ -1,15 +1,19 @@
 * {
   box-sizing: border-box;
   outline: none;
+  margin: 0;
+  padding: 0;
 }
 html {
   -webkit-text-size-adjust:none;
   font-size: 50px;
 }
 body {
-  margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   background-color: #f1f1f1;
+}
+ul li {
+  list-style: none;
 }
 a {
   color: #222;
@@ -20,11 +24,16 @@ a:visited {
 $colors: (
   "primary": #db9e3f,
   "white": #fff,
-  "black": #333,
+  "black": #000,
+  "dark-1": #111,
   "dark-2": #222,
   "dark-3": #333,
+  "dark-4": #444,
   "gray": #999,
-  "light": #f9f9f9
+  "light-1": #eee,
+  "light-2": #ddd,
+  "light-3": #ccc,
+  "light-4": #bbb
 );
 @each $key, $value in $colors {
   .color-#{$key} {
@@ -139,4 +148,22 @@ $spacing-sizes: (
       }
     }
   }
+}
+.bold {
+  font-weight: bold;
+}
+.text-align-center {
+  text-align: center
+}
+.content-box {
+  box-sizing: content-box;
+}
+.width-100 {
+  width: 100%;
+}
+.height-100 {
+  height: 100%;
+}
+.vertical-align-middle {
+  vertical-align: middle;
 }
